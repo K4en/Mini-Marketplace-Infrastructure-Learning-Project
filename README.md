@@ -1,0 +1,1 @@
+This project is intentionally small. The goal is to demonstrate fundamental concepts in distributed systems, container orchestration, event-driven architecture, cloud infrastructure, and workflow orchestration rather than application complexity.
