@@ -10,7 +10,7 @@ React + FastAPI + SQLite
 - Basic API models
 - Basic frontend
 
-🐳 Stage 2 — Docker
+✅ Stage 2 — Docker
 
 Learn:
 - images

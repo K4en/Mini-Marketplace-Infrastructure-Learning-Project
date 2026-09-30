@@ -22,7 +22,7 @@ app.add_middleware(
 
 @app.get("/products", response_model=list[ProductResponse])
 def get_products():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("data/database.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM products")
@@ -42,7 +42,7 @@ def get_products():
 
 @app.get("/products/{product_id}", response_model=ProductResponse)
 def list_products(product_id: int):
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("data/database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM products WHERE id= ?", (product_id,))
     product = cursor.fetchone()
@@ -59,7 +59,7 @@ def list_products(product_id: int):
 
 @app.post("/products")
 def add_products(product: ProductCreate):
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("data/database.db")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO products (name, price, stock)"
                    " VALUES (?,?,?)",
@@ -72,7 +72,7 @@ def add_products(product: ProductCreate):
 
 @app.get("/orders", response_model=list[OrderResponse])
 def get_orders():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("data/database.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM orders")
@@ -93,7 +93,7 @@ def get_orders():
 
 @app.get("/orders/{order_id}", response_model=OrderResponse)
 def list_orders(order_id: int):
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("data/database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM orders WHERE id= ?", (order_id,))
     order = cursor.fetchone()
@@ -111,7 +111,7 @@ def list_orders(order_id: int):
 
 @app.post("/orders", response_model=OrderResponse)
 def send_orders(order: OrderCreate):
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("data/database.db")
     cursor = conn.cursor()
 
     # Find product
