@@ -2,13 +2,16 @@ from fastapi import FastAPI, Request, Response, Depends, HTTPException, status
 import sqlite3
 from datetime import datetime, timedelta
 from starlette.middleware.cors import CORSMiddleware
+from kafka import KafkaProducer
+import json
 
 
 from models import (
-ProductCreate,
-OrderCreate,
-ProductResponse,
-OrderResponse
+    ProductCreate,
+    OrderCreate,
+    ProductResponse,
+    OrderResponse,
+    ShipmentResponse
 )
 
 app = FastAPI()
@@ -19,6 +22,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+producer = KafkaProducer(bootstrap_servers=["kafka:9093"],)
 
 @app.get("/products", response_model=list[ProductResponse])
 def get_products():
@@ -149,6 +154,15 @@ def send_orders(order: OrderCreate):
     created_order = cursor.fetchone()
     conn.close()
 
+    event = {
+        "event": "OrderCreated",
+        "order_id": order_id,
+        "product_id": order.product_id,
+        "quantity": order.quantity,
+    }
+    producer.send("orders", json.dumps(event).encode())
+    producer.flush()
+
     return {
             "id": created_order[0],
             "product_id": created_order[1],
@@ -156,3 +170,19 @@ def send_orders(order: OrderCreate):
             "status": created_order[3],
             "created_at": created_order[4],
     }
+
+@app.get("/shipments", response_model=list[ShipmentResponse])
+def get_shipments():
+    conn = sqlite3.connect("shipping/shipments.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM shipments")
+    shipments = cursor.fetchall()
+    conn.close()
+    return [{
+        "id": shipment[0],
+        "order_id": shipment[1],
+        "status": shipment[2],
+        "created_at": shipment[3],
+    }
+    for shipment in shipments
+    ]

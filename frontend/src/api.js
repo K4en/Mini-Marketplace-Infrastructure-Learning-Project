@@ -68,3 +68,13 @@ export async function getOrders() {
 
     return response.json();
 }
+
+export async function getShipments() {
+    const response = await fetch(`${API_URL}/shipments`);
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch shipments");
+    }
+
+    return response.json();
+}

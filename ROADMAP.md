@@ -30,9 +30,9 @@ Containerize:
 
 Learn:
 
-producer
-consumer
-topic
+✅producer
+✅consumer
+✅topic
 partitions
 consumer groups
 offsets

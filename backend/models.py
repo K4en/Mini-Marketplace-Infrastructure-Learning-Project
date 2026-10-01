@@ -24,3 +24,9 @@ class OrderResponse(BaseModel):
     quantity: int
     status: str
     created_at: datetime
+
+class ShipmentResponse(BaseModel):
+    id: int
+    order_id: int
+    status: str
+    created_at: datetime

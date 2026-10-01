@@ -181,4 +181,16 @@
     right: 0;
     border-right-color: var(--border);
   }
+
+}
+
+.data-panels {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 30px;
+  width: 100%;
+}
+
+.data-panels > div {
+  flex: 1 1 0;
 }

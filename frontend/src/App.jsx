@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
-import { getProducts, getOrders, createOrder, createProduct } from "./api";
+import { getProducts, getOrders, createOrder, createProduct, getShipments } from "./api";
+import "./App.css";
 
 function App() {
     const [products, setProducts] = useState([]);
     const [orders, setOrders] = useState([]);
+    const [shipments, setShipments] = useState([]);
 
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [productStock, setProductStock] = useState("");
 
     async function loadData() {
-        const [productsData, ordersData] = await Promise.all([
+        const [productsData, ordersData, shipmentData] = await Promise.all([
             getProducts(),
             getOrders(),
+            getShipments(),
         ]);
 
         setProducts(productsData);
         setOrders(ordersData);
+        setShipments(shipmentData);
     }
 
     async function handleAddProduct(event) {
@@ -91,7 +95,8 @@ function App() {
                     </button>
                 </div>
             ))}
-
+        <div className="data-panels">
+        <div>
             <h2>Orders</h2>
 
             <button onClick={() => loadData()}>
@@ -101,11 +106,60 @@ function App() {
             {orders.length === 0 ? (
                 <p>No orders yet.</p>
             ) : (
-                orders.map((order) => (
-                    <div key={order.id}>
-                        Order #{order.id} — Product {order.product_id}
-                    </div>
-                        )))}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {orders.map((order) => (
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>{order.product_id}</td>
+                                <td>{order.quantity}</td>
+                                <td>{order.status}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+            </div>
+
+            <div>
+            <h2>Shipments</h2>
+
+            {shipments.length === 0 ? (
+                <p>No shipments yet.</p>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Order</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {shipments.map((shipment) => (
+                            <tr key={shipment.id}>
+                                <td>{shipment.id}</td>
+                                <td>{shipment.order_id}</td>
+                                <td>{shipment.status}</td>
+                                <td>{shipment.created_at}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+        </div>
         </div>
     );
 }
