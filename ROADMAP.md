@@ -36,7 +36,7 @@ Learn:
 partitions
 consumer groups
 offsets
-basic delivery concepts
+✅basic delivery concepts
 
 Then integrate it into the marketplace.
 
@@ -44,15 +44,48 @@ Then integrate it into the marketplace.
 
 Learn:
 
-cluster
-node
-pod
-deployment
-replica
-service
-ConfigMap
+✅Cluster
+Done — local Kubernetes cluster running
+
+
+✅Node
+Done — inspected the cluster node
+
+
+✅Pod
+Done — inspected, deleted and replaced Pods
+
+
+✅Deployment
+Done — deployed the backend and Kafka
+
+
+✅Replicas
+Practised scaling the backend up and down
+
+
+✅Service
+Done — backend and Kafka have Services
+
+
+✅ConfigMap
+Done — Kafka configuration supplied through a ConfigMap
+
+
 Secret
-basic ingress
+Created a demonstration Secret; actual use not yet implemented
+
+
+✅Persistent storage
+Done — PVC, database migration and data verification
+
+
+Ingress
+Not done
+
+
+Full application deployment
+Partial — frontend and consumer are not yet deployed in Kubernetes
 
 Deploy our little application locally.
 

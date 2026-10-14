@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from starlette.middleware.cors import CORSMiddleware
 from kafka import KafkaProducer
 import json
+import database
 
 
 from models import (
